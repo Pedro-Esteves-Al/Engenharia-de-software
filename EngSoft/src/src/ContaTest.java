@@ -41,4 +41,17 @@ class ContaTest {
         var obj = new Conta(100);
         assertThrows(Exception.class, () -> obj.sacar(100.01));
     }
+    @Test
+    void transferirComSaldo() throws Exception {
+        var origem = new Conta(100.0);
+        var destino = new Conta(25);
+
+        try {
+            origem.transferir(destino,100);
+            assertEquals(125,destino.getSaldo());
+            assertEquals(0,origem.getSaldo());
+        } catch (Exception e) {
+            fail();
+        }
+    }
 }
