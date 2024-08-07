@@ -3,9 +3,14 @@ package src;
 public class Conta {
     private double saldo;
 
-    public Conta(double saldoInicial) throws Exception {
-        if (saldoInicial < 0) throw new Exception("Saldo inicial negativo!");
+    private double limite = 0;
+
+    private IApiBancoCentral apiBc;
+
+    public Conta(double saldoInicial, IApiBancoCentral apiBc) throws Exception {
+        //if (saldoInicial < 0) throw new Exception("Saldo inicial negativo!");
         saldo = saldoInicial;
+        this.apiBc = apiBc;
     }
 
     public void depositar(double quantia) throws Exception {
@@ -18,6 +23,10 @@ public class Conta {
             throw new Exception("Saldo insuficiente");
         }
         saldo -= quantia;
+
+        if (quantia > 5000) {
+            apiBc.notificarSaque(this,quantia);
+        }
     }
 
     public double getSaldo() {
